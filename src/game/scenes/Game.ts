@@ -16,6 +16,17 @@ export default class Game extends Phaser.Scene {
 		// Write your code here.
 		/* END-USER-CTR-CODE */
 	}
+	
+	init ()
+    {
+        this.cameras.main.fadeIn(100);
+        const fxCamera = this.cameras.main.postFX.addPixelate(40);
+        this.add.tween({
+            targets: fxCamera,
+            duration: 700,
+            amount: -1,
+        });
+    }
 
 	editorCreate(): void {
 
@@ -44,10 +55,22 @@ export default class Game extends Phaser.Scene {
 
 
 		backButton.on('pointerdown', () => {
-            this.scene.start("MainMenu"); // Go back to the MainMenu scene
+            this.cameras.main.fadeOut(800);
+            const fxCamera = this.cameras.main.postFX.addPixelate(-1);
+
+            this.add.tween({
+                targets: fxCamera,
+                duration: 1200, // Slower pixelation duration
+        		amount: 40,     // Gradually increase pixelation for smoother transition
+        		ease: 'Linear', // Smooth, linear increase in pixelation
+        		onComplete: () => {
+					this.cameras.main.fadeOut(100);
+                    this.scene.start("MainMenu"); // Go back to the MainMenu scene
+                }
+            });
         });
-		
-		this.events.emit("scene-awake");
+
+        this.events.emit("scene-awake");
 	}
 
 	/* START-USER-CODE */

@@ -18,6 +18,16 @@ export default class MainMenu extends Phaser.Scene {
         // Initialize variables if necessary
         /* END-USER-CTR-CODE */
     }
+    init ()
+    {
+        this.cameras.main.fadeIn(100);
+        const fxCamera = this.cameras.main.postFX.addPixelate(40);
+        this.add.tween({
+            targets: fxCamera,
+            duration: 700,
+            amount: -1,
+        });
+    }
 
     editorCreate(): void {
 
@@ -44,12 +54,23 @@ export default class MainMenu extends Phaser.Scene {
             color: "#ffffff"
         }).setOrigin(0.5).setInteractive();
 
-        // Event listener for "Play" button
+        // Event listener for "Play" button with pixelated transition
         playButton.on('pointerdown', () => {
-            this.scene.start("Game"); // Start the Game scene when clicked
+            this.cameras.main.fadeOut(800);
+            const fxCamera = this.cameras.main.postFX.addPixelate(-1);
+
+            this.add.tween({
+                targets: fxCamera,
+                duration: 1200, // Slower pixelation duration
+                amount: 80,     // Gradually increase pixelation for smoother transition
+                ease: 'Linear', // Smooth, linear increase in pixelation
+                onComplete: () => {
+                    this.cameras.main.fadeOut(100);
+                    this.scene.start("Game"); // Start the Game scene when transition completes
+                }
+            });
         });
 
-        
         this.events.emit("scene-awake");
     }
 
@@ -69,7 +90,7 @@ export default class MainMenu extends Phaser.Scene {
             targets: floatingText,
             y: floatingText.y - 50, // Move up by 50 pixels
             alpha: 0,  // Fade out the text
-            duration: 1000, // 1 second animation
+            duration: 7000, // 1 second animation
             ease: 'Power1',
             onComplete: () => {
                 floatingText.destroy(); // Destroy the text after the animation
