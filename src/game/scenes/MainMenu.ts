@@ -35,7 +35,7 @@ export default class MainMenu extends Phaser.Scene {
         this.add.image(960, 540, "background_1").setScale(.4, .38);
 
         // Text with Multi-Color Tint
-        this.rainbowText = this.add.text(200, 200, "I & u", {
+        this.rainbowText = this.add.text(160, 200, "I & u", {
             fontSize: '38px',
             fontFamily: "White",
             color: "#ffffff", // Base color; tint will override this
@@ -48,11 +48,10 @@ export default class MainMenu extends Phaser.Scene {
         this.rainbowText.setOrigin(-8.2, 2);
 
         // "Play" button
-        const playButton = this.add.text(960, 600, "Play", {
-            fontSize: '48px',
-            fontFamily: "Arial",
-            color: "#ffffff"
-        }).setOrigin(0.5).setInteractive();
+        const playButton = this.add.image(820, 500, "Play")
+		 	.setScale(0.5,0.5)
+    		.setOrigin(0.2)
+    		.setInteractive();
 
         // Event listener for "Play" button with pixelated transition
         playButton.on('pointerdown', () => {
@@ -78,25 +77,6 @@ export default class MainMenu extends Phaser.Scene {
     /* START-USER-CODE */
     logoTween: Phaser.Tweens.Tween | null = null;
 
-    // Added the floating text method here
-    displayFloatingText(producedItem: string) {
-        const floatingText = this.add.text(1142, 100, `+1 ${producedItem}`, {
-            fontSize: '16px',
-            color: '#ffffff'
-        });
-
-        // Apply tween to animate the text (move up and fade out)
-        this.tweens.add({
-            targets: floatingText,
-            y: floatingText.y - 50, // Move up by 50 pixels
-            alpha: 0,  // Fade out the text
-            duration: 7000, // 1 second animation
-            ease: 'Power1',
-            onComplete: () => {
-                floatingText.destroy(); // Destroy the text after the animation
-            }
-        });
-    }
 
     create() {
         this.editorCreate();

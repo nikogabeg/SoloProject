@@ -16,7 +16,7 @@ export default class Game extends Phaser.Scene {
 		// Write your code here.
 		/* END-USER-CTR-CODE */
 	}
-	
+
 	init ()
     {
         this.cameras.main.fadeIn(100);
@@ -47,11 +47,10 @@ export default class Game extends Phaser.Scene {
         this.rainbowText.setOrigin(-8.2, 2);
 
 		 // "Back" button to return to MainMenu
-		 const backButton = this.add.text(960, 700, "Back", {
-            fontSize: '36px',
-            fontFamily: "Arial",
-            color: "#ffffff",
-        }).setOrigin(0.5).setInteractive();
+		 const backButton = this.add.image(1650, 100, "Back")
+		 	.setScale(0.35,0.3)
+    		.setOrigin(0.2)
+    		.setInteractive();
 
 
 		backButton.on('pointerdown', () => {
@@ -73,6 +72,26 @@ export default class Game extends Phaser.Scene {
         this.events.emit("scene-awake");
 	}
 
+
+	 // Added the floating text method here
+	 displayFloatingText(producedItem: string) {
+        const floatingText = this.add.text(1142, 100, `+1 ${producedItem}`, {
+            fontSize: '16px',
+            color: '#ffffff'
+        });
+
+        // Apply tween to animate the text (move up and fade out)
+        this.tweens.add({
+            targets: floatingText,
+            y: floatingText.y - 50, // Move up by 50 pixels
+            alpha: 0,  // Fade out the text
+            duration: 7000, // 1 second animation
+            ease: 'Power1',
+            onComplete: () => {
+                floatingText.destroy(); // Destroy the text after the animation
+            }
+        });
+    }
 	/* START-USER-CODE */
 
 	// Write your code here

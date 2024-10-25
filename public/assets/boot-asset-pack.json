@@ -10,7 +10,17 @@
                 "url": "assets/pink-planet-clouds-green-yellow-landscape-with-stars.jpg",
                 "type": "image",
                 "key": "background_1"
-                
+            },
+
+            {
+                "url": "assets/backButton.png",
+                "type": "image",
+                "key": "Back"
+            },
+            {
+                "url": "assets/playButton.png",
+                "type": "image",
+                "key": "Play"
             }
         ]
     },

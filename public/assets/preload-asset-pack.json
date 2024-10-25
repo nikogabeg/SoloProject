@@ -10,6 +10,16 @@
                 "url": "assets/star.png",
                 "type": "image",
                 "key": "star"
+            },
+            {
+                "url": "assets/backButton.png",
+                "type": "image",
+                "key": "Back"
+            },
+            {
+                "url": "assets/playButton.png",
+                "type": "image",
+                "key": "Play"
             }
         ]
     },
