@@ -35,7 +35,20 @@ export default class MainMenu extends Phaser.Scene {
         // Apply the multi-color tint to the text itself
         this.rainbowText.setTint(0xff9dd5, 0xd8a7c3, 0xf4c64a, 0xe49cff);
         this.rainbowText.setStroke("#b7a5ca",5);
-        this.rainbowText.setOrigin(-7.8, 2);
+        this.rainbowText.setOrigin(-8.2, 2);
+
+        // "Play" button
+        const playButton = this.add.text(960, 600, "Play", {
+            fontSize: '48px',
+            fontFamily: "Arial",
+            color: "#ffffff"
+        }).setOrigin(0.5).setInteractive();
+
+        // Event listener for "Play" button
+        playButton.on('pointerdown', () => {
+            this.scene.start("Game"); // Start the Game scene when clicked
+        });
+
         
         this.events.emit("scene-awake");
     }
