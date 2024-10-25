@@ -9,89 +9,69 @@ import { EventBus } from '../EventBus';
 
 export default class MainMenu extends Phaser.Scene {
 
-	constructor() {
-		super("MainMenu");
+    private rainbowText!: Phaser.GameObjects.Text;
 
-		/* START-USER-CTR-CODE */
-		// Write your code here.
-		/* END-USER-CTR-CODE */
-	}
+    constructor() {
+        super("MainMenu");
 
-	editorCreate(): void {
+        /* START-USER-CTR-CODE */
+        // Initialize variables if necessary
+        /* END-USER-CTR-CODE */
+    }
 
-		// background
-		this.add.image(512, 384, "background");
+    editorCreate(): void {
 
-		// logo
-		const logo = this.add.image(512, 384, "logo");
+        // background
+        this.add.image(960, 540, "background_1").setScale(.4, .38);
 
-		// text
-		const text = this.add.text(512, 460, "", {});
-		text.setOrigin(0.5, 0.5);
-		text.text = "Main Menu";
-		text.setStyle({ "align": "center", "color": "#ffffff", "fontFamily": "Arial Black", "fontSize": "38px", "stroke": "#000000", "strokeThickness":8});
+        // Text with Multi-Color Tint
+        this.rainbowText = this.add.text(200, 200, "I & u", {
+            fontSize: '38px',
+            fontFamily: "White",
+            color: "#ffffff", // Base color; tint will override this
+            align: "center",
+        });
 
-		this.logo = logo;
+        // Apply the multi-color tint to the text itself
+        this.rainbowText.setTint(0xff9dd5, 0xd8a7c3, 0xf4c64a, 0xe49cff);
+        this.rainbowText.setStroke("#b7a5ca",5);
+        this.rainbowText.setOrigin(-7.8, 2);
+        
+        this.events.emit("scene-awake");
+    }
 
-		this.events.emit("scene-awake");
-	}
 
-	private logo!: Phaser.GameObjects.Image;
+    /* START-USER-CODE */
+    logoTween: Phaser.Tweens.Tween | null = null;
 
-	/* START-USER-CODE */
-    logoTween: Phaser.Tweens.Tween | null;
+    // Added the floating text method here
+    displayFloatingText(producedItem: string) {
+        const floatingText = this.add.text(1142, 100, `+1 ${producedItem}`, {
+            fontSize: '16px',
+            color: '#ffffff'
+        });
 
-	// Write your code here
-    create ()
-    {
+        // Apply tween to animate the text (move up and fade out)
+        this.tweens.add({
+            targets: floatingText,
+            y: floatingText.y - 50, // Move up by 50 pixels
+            alpha: 0,  // Fade out the text
+            duration: 1000, // 1 second animation
+            ease: 'Power1',
+            onComplete: () => {
+                floatingText.destroy(); // Destroy the text after the animation
+            }
+        });
+    }
+
+    create() {
         this.editorCreate();
 
         EventBus.emit('current-scene-ready', this);
     }
 
-    changeScene ()
-    {
-        if (this.logoTween)
-        {
-            this.logoTween.stop();
-            this.logoTween = null;
-        }
-
-        this.scene.start('Game');
-    }
-
-    moveLogo (vueCallback: ({ x, y }: { x: number, y: number }) => void)
-    {
-        if (this.logoTween)
-        {
-            if (this.logoTween.isPlaying())
-            {
-                this.logoTween.pause();
-            }
-            else
-            {
-                this.logoTween.play();
-            }
-        } 
-        else
-        {
-            this.logoTween = this.tweens.add({
-                targets: this.logo,
-                x: { value: 750, duration: 3000, ease: 'Back.easeInOut' },
-                y: { value: 80, duration: 1500, ease: 'Sine.easeOut' },
-                yoyo: true,
-                repeat: -1,
-                onUpdate: () => {
-                    if (vueCallback)
-                    {
-                        vueCallback({
-                            x: Math.floor(this.logo.x),
-                            y: Math.floor(this.logo.y)
-                        });
-                    }
-                }
-            });
-        }
+    update() {
+        // No stroke or outline animation needed, only keep the text tint
     }
     /* END-USER-CODE */
 }

@@ -5,6 +5,12 @@
                 "url": "assets/bg.png",
                 "type": "image",
                 "key": "background"
+            },
+            {
+                "url": "assets/pink-planet-clouds-green-yellow-landscape-with-stars.jpg",
+                "type": "image",
+                "key": "background_1"
+                
             }
         ]
     },
