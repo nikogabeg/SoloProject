@@ -14,9 +14,6 @@ export default class Game extends Phaser.Scene {
 	constructor() {
 		super("Game");
 
-		/* START-USER-CTR-CODE */
-		// Write your code here.
-		/* END-USER-CTR-CODE */
 	}
 
 	init ()
@@ -31,10 +28,13 @@ export default class Game extends Phaser.Scene {
     }
 
 	preload() {
-        // Load the image for the produced item
+        // Load images and audio files
         this.load.image('Item', 'assets/star.png'); // Make sure the file path is correct
         this.load.image('Model_1','assets/Model_1.png');
         this.load.image('Inventory','assets/8bitBox_1.png');
+        this.load.audioSprite('sfx_1','assets/DiscordJoin.mp3');
+        this.load.audioSprite('sfx_2','assets/tutturuu.mp3');
+
     }
 
 	editorCreate(): void {
@@ -43,7 +43,6 @@ export default class Game extends Phaser.Scene {
         this.add.image(960, 540, "background_1").setScale(.4, .38);
 
         
-        this.add.image(1100, 600, "Item").setScale(.8, .8);
         // Display the Inventory Box and Item in the inventory
         this.add.image(850, 520, "Inventory").setScale(.8, .55);
         this.add.image(830, 460, "Item").setScale(.9, .9);
@@ -55,53 +54,50 @@ export default class Game extends Phaser.Scene {
             color: '#CC0000',
         }).setOrigin(0.5);
 
-        // Make the main Item image clickable
+        // Make the main Item image clickable and play "DiscordJoin" sound on click
         const clickableItem = this.add.image(1100, 600, "Item")
             .setScale(.8, .8)
             .setInteractive();
 
-        // Event listener for clicking the Item image
         clickableItem.on('pointerdown', () => {
             this.producedItemCount += 1; // Increment the count
             this.updateCountText(); // Update the inventory counter display
             this.displayFloatingText('');
+            this.sound.play('sfx_1'); // Play DiscordJoin sound
         });
 
-		 // "Back" button to return to MainMenu
-		 const backButton = this.add.image(1650, 100, "Back")
-		 	.setScale(0.35,0.3)
-    		.setOrigin(0.2)
-    		.setInteractive();
+         // "Back" button to return to MainMenu
+         const backButton = this.add.image(1650, 100, "Back")
+            .setScale(0.35,0.3)
+            .setOrigin(0.2)
+            .setInteractive();
 
-
-		backButton.on('pointerdown', () => {
+        backButton.on('pointerdown', () => {
             this.cameras.main.fadeOut(800);
             const fxCamera = this.cameras.main.postFX.addPixelate(-1);
 
             this.add.tween({
                 targets: fxCamera,
                 duration: 1200, // Slower pixelation duration
-        		amount: 40,     // Gradually increase pixelation for smoother transition
-        		ease: 'Linear', // Smooth, linear increase in pixelation
-        		onComplete: () => {
-					this.cameras.main.fadeOut(100);
+                amount: 40,     // Gradually increase pixelation for smoother transition
+                ease: 'Linear', // Smooth, linear increase in pixelation
+                onComplete: () => {
+                    this.cameras.main.fadeOut(100);
                     this.scene.start("MainMenu"); // Go back to the MainMenu scene
                 }
             });
-    
-            
         });
 
         this.events.emit("scene-awake");
-	}
+    }
 
     // Method to update the counter display in the inventory
     updateCountText() {
         this.countText.setText(`${this.producedItemCount}`);
     }
 
-	 // Added the floating text method here
-	 displayFloatingText(producedItem: string) {
+     // Added the floating text method here
+     displayFloatingText(producedItem: string) {
         const floatingText = this.add.text(1100, 550, `+1 ${producedItem}`, {
             fontSize: '24px',
             fontFamily: "White",
@@ -120,12 +116,10 @@ export default class Game extends Phaser.Scene {
             }
         });
     }
-	/* START-USER-CODE */
 
-	// Write your code here
+    /* START-USER-CODE */
 
-	create() {
-
+    create() {
         this.editorCreate();
 
         this.cameras.main.setBackgroundColor(0x00ff00);
@@ -136,7 +130,7 @@ export default class Game extends Phaser.Scene {
         this.rainbowText = this.add.text(200, 200, "I & u", {
             fontSize: '38px',
             fontFamily: "White",
-            color: "#ffffff", // Base color; tint will override this
+            color: "#ffffff",
             align: "center",
         });
 
@@ -154,7 +148,12 @@ export default class Game extends Phaser.Scene {
             yoyo: true
         });
 
-        const model = this.add.image(950, 700, "Model_1").setScale(.1, .1);
+        // Make the model clickable and play "Tutturuu" sound on click
+        const model = this.add.image(950, 700, "Model_1").setScale(.1, .1).setInteractive();
+        model.on('pointerdown', () => {
+            this.sound.play('sfx_2'); // Play Tutturuu sound
+        });
+
         this.tweens.add({
             targets: model,
             y: 660,
@@ -163,17 +162,16 @@ export default class Game extends Phaser.Scene {
             loop: -1,
             yoyo: true
         });
+    }
 
-	}
-
-    changeScene ()
-    {
+    changeScene () {
         this.scene.start('GameOver');
     }
 
-	/* END-USER-CODE */
+    /* END-USER-CODE */
 }
 
 /* END OF COMPILED CODE */
 
 // You can write more code here
+export { Game };

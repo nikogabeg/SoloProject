@@ -20,6 +20,16 @@
                 "url": "assets/playButton.png",
                 "type": "image",
                 "key": "Play"
+            },
+            {
+                "url": "assets/tutturuu.mp3",
+                "type": "audio",
+                "key": "sfx_2"
+            },
+            {
+                "url": "assets/DiscordJoin.mp3",
+                "type": "audio",
+                "key": "sfx_1"
             }
         ]
     },

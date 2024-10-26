@@ -33,10 +33,19 @@
                 "key": "Model_1"
             },
             {
-                "url": "assets/8BitBox_1.png",
+                "url": "assets/8bitBox_1.png",
                 "type": "image",
                 "key": "Inventory"
-                
+            },
+            {
+                "url": "assets/tutturuu.mp3",
+                "type": "audio",
+                "key": "sfx_2"
+            },
+            {
+                "url": "assets/DiscordJoin.mp3",
+                "type": "audio",
+                "key": "sfx_1"
             }
         ]
     },
