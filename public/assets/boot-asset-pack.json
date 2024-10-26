@@ -21,6 +21,22 @@
                 "url": "assets/playButton.png",
                 "type": "image",
                 "key": "Play"
+            },
+            {
+                "url": "assets/star.png",
+                "type": "image",
+                "key": "Item"
+            },
+            {
+                "url": "assets/Model_1.png",
+                "type": "image",
+                "key": "Model_1"
+            },
+            {
+                "url": "assets/8BitBox_1.png",
+                "type": "image",
+                "key": "Inventory"
+                
             }
         ]
     },

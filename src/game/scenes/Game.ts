@@ -8,6 +8,12 @@ import { EventBus } from '../EventBus';
 export default class Game extends Phaser.Scene {
 	
 	private rainbowText!: Phaser.GameObjects.Text;
+	private producedItemCount: number = 0;
+    private item1Count: number = 0;
+    private item2Count: number = 0;
+    private countText!: Phaser.GameObjects.Text;
+    private item1Text!: Phaser.GameObjects.Text;
+    private item2Text!: Phaser.GameObjects.Text;
 	
 	constructor() {
 		super("Game");
@@ -28,10 +34,22 @@ export default class Game extends Phaser.Scene {
         });
     }
 
+	preload() {
+        // Load the image for the produced item
+        this.load.image('Item', 'assets/star.png'); // Make sure the file path is correct
+        this.load.image('Model_1','assets/Model_1.png');
+        this.load.image('Inventory','assets/8bitBox_1.png');
+    }
+
 	editorCreate(): void {
 
 		// background
         this.add.image(960, 540, "background_1").setScale(.4, .38);
+
+        this.add.image(950, 700, "Model_1").setScale(.1, .1);
+        this.add.image(1100, 600, "Item").setScale(.8, .8);
+        this.add.image(850, 520, "Inventory").setScale(.8, .55);
+        this.add.image(842, 460, "Item").setScale(.9, .9);
 
         // Text with Multi-Color Tint
         this.rainbowText = this.add.text(200, 200, "I & u", {
