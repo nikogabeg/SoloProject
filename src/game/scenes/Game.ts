@@ -9,11 +9,7 @@ export default class Game extends Phaser.Scene {
 	
 	private rainbowText!: Phaser.GameObjects.Text;
 	private producedItemCount: number = 0;
-    private item1Count: number = 0;
-    private item2Count: number = 0;
     private countText!: Phaser.GameObjects.Text;
-    private item1Text!: Phaser.GameObjects.Text;
-    private item2Text!: Phaser.GameObjects.Text;
 	
 	constructor() {
 		super("Game");
@@ -48,10 +44,28 @@ export default class Game extends Phaser.Scene {
 
         
         this.add.image(1100, 600, "Item").setScale(.8, .8);
+        // Display the Inventory Box and Item in the inventory
         this.add.image(850, 520, "Inventory").setScale(.8, .55);
-        this.add.image(842, 460, "Item").setScale(.9, .9);
+        this.add.image(830, 460, "Item").setScale(.9, .9);
 
-        
+        // Create the counter text in the inventory box
+        this.countText = this.add.text(880, 460, `0`, {
+            fontSize: '28px',
+            fontFamily: "White",
+            color: '#CC0000',
+        }).setOrigin(0.5);
+
+        // Make the main Item image clickable
+        const clickableItem = this.add.image(1100, 600, "Item")
+            .setScale(.8, .8)
+            .setInteractive();
+
+        // Event listener for clicking the Item image
+        clickableItem.on('pointerdown', () => {
+            this.producedItemCount += 1; // Increment the count
+            this.updateCountText(); // Update the inventory counter display
+            this.displayFloatingText('');
+        });
 
 		 // "Back" button to return to MainMenu
 		 const backButton = this.add.image(1650, 100, "Back")
@@ -81,11 +95,16 @@ export default class Game extends Phaser.Scene {
         this.events.emit("scene-awake");
 	}
 
+    // Method to update the counter display in the inventory
+    updateCountText() {
+        this.countText.setText(`${this.producedItemCount}`);
+    }
 
 	 // Added the floating text method here
 	 displayFloatingText(producedItem: string) {
-        const floatingText = this.add.text(1142, 100, `+1 ${producedItem}`, {
-            fontSize: '16px',
+        const floatingText = this.add.text(1100, 550, `+1 ${producedItem}`, {
+            fontSize: '24px',
+            fontFamily: "White",
             color: '#ffffff'
         });
 
