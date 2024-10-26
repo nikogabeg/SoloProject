@@ -46,23 +46,12 @@ export default class Game extends Phaser.Scene {
 		// background
         this.add.image(960, 540, "background_1").setScale(.4, .38);
 
-        this.add.image(950, 700, "Model_1").setScale(.1, .1);
+        
         this.add.image(1100, 600, "Item").setScale(.8, .8);
         this.add.image(850, 520, "Inventory").setScale(.8, .55);
         this.add.image(842, 460, "Item").setScale(.9, .9);
 
-        // Text with Multi-Color Tint
-        this.rainbowText = this.add.text(200, 200, "I & u", {
-            fontSize: '38px',
-            fontFamily: "White",
-            color: "#ffffff", // Base color; tint will override this
-            align: "center",
-        });
-
-        // Apply the multi-color tint to the text itself
-        this.rainbowText.setTint(0xff9dd5, 0xd8a7c3, 0xf4c64a, 0xe49cff);
-        this.rainbowText.setStroke("#b7a5ca",5);
-        this.rainbowText.setOrigin(-8.2, 2);
+        
 
 		 // "Back" button to return to MainMenu
 		 const backButton = this.add.image(1650, 100, "Back")
@@ -85,6 +74,8 @@ export default class Game extends Phaser.Scene {
                     this.scene.start("MainMenu"); // Go back to the MainMenu scene
                 }
             });
+    
+            
         });
 
         this.events.emit("scene-awake");
@@ -121,6 +112,38 @@ export default class Game extends Phaser.Scene {
         this.cameras.main.setBackgroundColor(0x00ff00);
 
         EventBus.emit('current-scene-ready', this);
+
+        // Text with Multi-Color Tint
+        this.rainbowText = this.add.text(200, 200, "I & u", {
+            fontSize: '38px',
+            fontFamily: "White",
+            color: "#ffffff", // Base color; tint will override this
+            align: "center",
+        });
+
+        // Apply the multi-color tint to the text itself
+        this.rainbowText.setTint(0xff9dd5, 0xd8a7c3, 0xf4c64a, 0xe49cff);
+        this.rainbowText.setStroke("#b7a5ca",5);
+        this.rainbowText.setOrigin(-8.2, 2);
+
+        this.tweens.add({
+            targets: this.rainbowText,
+            y: 230,
+            duration: 2500,
+            ease: 'Sine.easeInOut',
+            loop: -1,
+            yoyo: true
+        });
+
+        const model = this.add.image(950, 700, "Model_1").setScale(.1, .1);
+        this.tweens.add({
+            targets: model,
+            y: 660,
+            duration: 2500,
+            ease: 'Sine.easeInOut',
+            loop: -1,
+            yoyo: true
+        });
 
 	}
 
